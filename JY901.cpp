@@ -17,9 +17,11 @@ int fd;
 /**#####################################################################
  * Set address for JY901
  * @param actu_addr: actual address of JY901
+ * !!!NOTICE: Please initialize the sensor again after using this function
  * ###################################################################*/
  void jy901_set_addr( unsigned char actu_addr) {
 	 addr = actu_addr ;
+	 is_inited = false ;
  }
 
 
@@ -249,5 +251,24 @@ bool jy901_getOmega(omega *w) {
 	{
 		printf("ERROR: sensor not initialized.\n") ;
 		return false ;
+	}
+}
+
+
+
+
+/**##################################################################
+ * Enter or exit power-saving mode
+ * @param bool set: true=enable, false=disable
+ * @return: true=success, false=fail
+ * ################################################################*/
+bool jy901_sleep(bool set) {
+	if(is_inited) {
+		return wiringPiI2CWriteReg16( fd , 0x22 , set );
+	}
+	else
+	{
+		printf("ERROR: sensor not initialized.\n") ;
+		return false;
 	}
 }
