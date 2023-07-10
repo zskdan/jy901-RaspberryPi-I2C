@@ -1,1 +1,1 @@
-g++  example.cpp -lwiringPi -o example
+g++ example.cpp -lwiringPi -o jy901-read
